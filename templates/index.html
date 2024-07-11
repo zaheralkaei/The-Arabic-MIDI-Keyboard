@@ -65,9 +65,40 @@
             padding: 20px;
             display: inline-block;
         }
-        #volume-slider {
+        #volume-container {
             margin-top: 10px;
+            padding: 10px;
+            border: 1px solid white;
+            background-color: black;
+            display: inline-block;
+            text-align: left;
+        }
+        #volume-slider {
             width: 300px;
+            -webkit-appearance: none;
+            appearance: none;
+            height: 10px;
+            background: orange;
+            outline: none;
+            opacity: 0.7;
+            transition: opacity .2s;
+        }
+        #volume-slider:hover {
+            opacity: 1;
+        }
+        #volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: white;
+            cursor: pointer;
+        }
+        #volume-slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: white;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -103,6 +134,9 @@
         </select>
         <button id="toggle-reverb">Toggle Reverb</button>
         <button id="toggle-arpeggiator">Toggle Arpeggiator</button>
+    </div>
+    <div id="volume-container">
+        <label for="volume-slider">Volume</label>
         <input type="range" id="volume-slider" min="0" max="100" value="50">
     </div>
     <script>
