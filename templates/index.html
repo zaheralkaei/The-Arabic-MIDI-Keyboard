@@ -11,7 +11,6 @@
             font-family: Arial, sans-serif;
             text-align: center;
         }
-        /* Styling for the keys */
         .key {
             display: inline-block;
             width: 40px;
@@ -39,10 +38,12 @@
         .pressed {
             background-color: yellow !important;
         }
-        /* Styling for control buttons and dropdown */
         .controls {
-            margin: 10px 0;
-            display: inline-block;
+            margin: 20px 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
         }
         .controls button, .controls select {
             margin: 5px;
@@ -58,22 +59,22 @@
             color: black;
         }
         .note {
-            margin-top: 10px;
+            margin-top: 5px;
         }
         #keyboard-container {
             border: 1px solid white;
             padding: 20px;
             display: inline-block;
+            margin-bottom: 30px;
         }
         #volume-container {
-            margin-top: 10px;
+            margin-top: 20px;
             padding: 10px;
-            border: 1px solid white;
             background-color: black;
             display: inline-block;
-            text-align: left;
+            text-align: center;
         }
-        #volume-slider {
+        #volume-slider, #tempo-slider {
             width: 300px;
             -webkit-appearance: none;
             appearance: none;
@@ -83,10 +84,10 @@
             opacity: 0.7;
             transition: opacity .2s;
         }
-        #volume-slider:hover {
+        #volume-slider:hover, #tempo-slider:hover {
             opacity: 1;
         }
-        #volume-slider::-webkit-slider-thumb {
+        #volume-slider::-webkit-slider-thumb, #tempo-slider::-webkit-slider-thumb {
             -webkit-appearance: none;
             appearance: none;
             width: 20px;
@@ -94,15 +95,109 @@
             background: white;
             cursor: pointer;
         }
-        #volume-slider::-moz-range-thumb {
+        #volume-slider::-moz-range-thumb, #tempo-slider::-moz-range-thumb {
             width: 20px;
             height: 20px;
             background: white;
             cursor: pointer;
         }
+        .slider-container {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .slider-label {
+            margin-right: 10px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin-bottom: 10px;
+        }
+        .button-container .black-button {
+            position: absolute;
+            z-index: 1;
+        }
+        .button-container .black-button[data-note="C#"] {
+            left: 55px;
+        }
+        .button-container .black-button[data-note="D#"] {
+            left: 148px;
+        }
+        .button-container .black-button[data-note="F#"] {
+            left: 335px;
+        }
+        .button-container .black-button[data-note="G#"] {
+            left: 418px;
+        }
+        .button-container .black-button[data-note="A#"] {
+            left: 500px;
+        }
+        .button-container.lower-row {
+            margin-bottom: 120px;
+        }
+        .about-button {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 10px;
+            background-color: lightblue;
+            color: black;
+            cursor: pointer;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+        }
+        .about-popout {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            color: black;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+            display: none;
+            z-index: 1000;
+        }
+        .about-popout h2 {
+            margin-top: 0;
+        }
+        .about-popout p {
+            text-align: left;
+        }
+        .about-popout .close-button {
+            background-color: red;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
+    <button class="about-button" onclick="showAbout()">About</button>
+    <div class="about-popout" id="aboutPopout">
+        <h2>About the Arabic MIDI Keyboard</h2>
+        <p>This MIDI keyboard allows you to play music using a computer keyboard or a touchscreen. It is designed to be used in modern browsers, such as Google Chrome or Mozilla Firefox.</p>
+        <p><strong>Keyboard Mapping:</strong></p>
+        <p>The keys on your computer keyboard are mapped to musical notes as follows:</p>
+        <p>q: C4, 2: C#4, w: D4, 3: D#4, e: E4, r: F4, 5: F#4, t: G4, 6: G#4, z: A4, 7: A#4, u: B4, i: C5, 9: C#5, o: D5, 0: D#5, p: E5, [: F5, =: F#5, ]: G5, \: G#5,
+        y: C5, s: C#5, x: D5, d: D#5, c: E5, v: F5, g: F#5, b: G5, h: G#5, n: A5, j: A#5, m: B5, ,: C6, l: C#6, .: D6, ;: D#6, /: E6</p>
+        <p><strong>Touchscreen:</strong></p>
+        <p>The keyboard is fully functional with touchscreens, allowing you to play notes by tapping on the keys.</p>
+        <p><strong>Libraries Used:</strong></p>
+        <p>This project utilizes the Web Audio API to generate and control audio.</p>
+        <p><strong>Arabic Maqams (Modes):</strong></p>
+        <p>The two rows of lowering buttons allow you to lower the pitch of specific notes by a quarter tone, enabling you to play traditional Arabic maqams.</p>
+        <p>For more information and to contribute, visit the <a href="https://github.com/zaheralkaei/TheArabicMIDIKeyboard" target="_blank">GitHub repository</a>.</p>
+        <button class="close-button" onclick="hideAbout()">Close</button>
+    </div>
     <h1>The Arabic MIDI Keyboard</h1>
     <p>by <a href="https://github.com/zaheralkaei" target="_blank" style="color: lightblue;">Zaher Alkaei</a></p>
     <div id="keyboard-container">
@@ -111,19 +206,25 @@
         </div>
     </div>
     <div class="controls">
-        <button data-note="C">Lower C</button>
-        <button data-note="C#">Lower C#</button>
-        <button data-note="D">Lower D</button>
-        <button data-note="D#">Lower D#</button>
-        <button data-note="E">Lower E</button>
-        <button data-note="F">Lower F</button>
-        <button data-note="F#">Lower F#</button>
-        <button data-note="G">Lower G</button>
-        <button data-note="G#">Lower G#</button>
-        <button data-note="A">Lower A</button>
-        <button data-note="A#">Lower A#</button>
-        <button data-note="B">Lower B</button>
-        <p>Note: The row of buttons above lowers the pitch by a quarter tone.</p>
+        <div class="button-container lower-row">
+            <button class="black-button" data-note="C#">Lower C#</button>
+            <button class="black-button" data-note="D#">Lower D#</button>
+            <button class="black-button" data-note="F#">Lower F#</button>
+            <button class="black-button" data-note="G#">Lower G#</button>
+            <button class="black-button" data-note="A#">Lower A#</button>
+        </div>
+        <div class="button-container">
+            <button data-note="C">Lower C</button>
+            <button data-note="D">Lower D</button>
+            <button data-note="E">Lower E</button>
+            <button data-note="F">Lower F</button>
+            <button data-note="G">Lower G</button>
+            <button data-note="A">Lower A</button>
+            <button data-note="B">Lower B</button>
+        </div>
+    </div>
+    <p>These two rows of buttons lower the pitch by a quarter tone.</p>
+    <div class="controls">
         <select id="instrument-voice">
             <option value="sine">Piano</option>
             <option value="triangle">Strings</option>
@@ -131,13 +232,23 @@
             <option value="sawtooth">Synth</option>
             <option value="custom1">Flute</option>
             <option value="custom2">Organ</option>
+            <option value="custom3">Percussion</option>
+            <option value="custom4">Bass Guitar</option>
         </select>
         <button id="toggle-reverb">Toggle Reverb</button>
         <button id="toggle-arpeggiator">Toggle Arpeggiator</button>
     </div>
     <div id="volume-container">
-        <label for="volume-slider">Volume</label>
-        <input type="range" id="volume-slider" min="0" max="100" value="50">
+        <div class="slider-container">
+            <label for="volume-slider" class="slider-label">Volume</label>
+            <input type="range" id="volume-slider" min="0" max="100" value="50">
+            <span id="volume-value">50%</span>
+        </div>
+        <div class="slider-container">
+            <label for="tempo-slider" class="slider-label">Tempo (BPM)</label>
+            <input type="range" id="tempo-slider" min="30" max="240" value="120">
+            <span id="tempo-value">120 BPM</span>
+        </div>
     </div>
     <script>
         const noteFrequencies = {
@@ -211,6 +322,8 @@
         let arpeggiatorIndex = 0;
         let masterGainNode = context.createGain();
         masterGainNode.connect(context.destination);
+        let velocity = 64;
+        let tempo = 120;
 
         // Function to create a reverb effect
         function createReverb() {
@@ -226,48 +339,93 @@
             return convolver;
         }
 
+        // Function to create an ADSR envelope
+        function applyADSR(gainNode, duration, attack = 0.01, decay = 0.01, sustain = 0.7, release = 0.01) {
+            const now = context.currentTime;
+            gainNode.gain.cancelScheduledValues(now);
+            gainNode.gain.setValueAtTime(0, now);
+            gainNode.gain.linearRampToValueAtTime(velocity / 127, now + attack);
+            gainNode.gain.linearRampToValueAtTime((velocity / 127) * sustain, now + attack + decay);
+            gainNode.gain.setValueAtTime((velocity / 127) * sustain, now + duration - release);
+            gainNode.gain.linearRampToValueAtTime(0, now + duration);
+        }
+
         // Function to play a frequency with the current voice and add an envelope
-        function playFrequency(note, frequency) {
+        function playFrequency(note, frequency, duration = 0.1) {
             const oscillator = context.createOscillator();
             const gainNode = context.createGain();
-            oscillator.frequency.setValueAtTime(frequency, context.currentTime);
 
             switch (currentVoice) {
+                case 'sine':  // Piano
+                    oscillator.type = 'sine';
+                    break;
+                case 'triangle':  // Strings
+                    oscillator.type = 'triangle';
+                    break;
+                case 'square':  // Harp
+                    oscillator.type = 'square';
+                    break;
+                case 'sawtooth':  // Synth
+                    oscillator.type = 'sawtooth';
+                    break;
                 case 'custom1':  // Flute
                     oscillator.type = 'sine';
+                    applyADSR(gainNode, duration, 0.01, 0.02, 0.5, 0.03);
                     break;
                 case 'custom2':  // Organ
                     oscillator.type = 'square';
+                    applyADSR(gainNode, duration, 0.02, 0.02, 0.8, 0.02);
+                    break;
+                case 'custom3':  // Percussion
+                    const noise = context.createBufferSource();
+                    const buffer = context.createBuffer(1, context.sampleRate, context.sampleRate);
+                    const data = buffer.getChannelData(0);
+                    for (let i = 0; i < buffer.length; i++) {
+                        data[i] = Math.random() * 2 - 1;
+                    }
+                    noise.buffer = buffer;
+                    noise.loop = true;
+                    noise.start(0);
+                    const noiseGain = context.createGain();
+                    noiseGain.gain.setValueAtTime(1, context.currentTime);
+                    noiseGain.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.1);
+                    noise.connect(noiseGain).connect(masterGainNode);
+                    setTimeout(() => noise.stop(), 100);
+                    break;
+                case 'custom4':  // Bass Guitar
+                    oscillator.type = 'sawtooth';
+                    const filter = context.createBiquadFilter();
+                    filter.type = 'lowpass';
+                    filter.frequency.setValueAtTime(500, context.currentTime);
+                    oscillator.connect(filter).connect(gainNode);
                     break;
                 default:
                     oscillator.type = currentVoice;
+                    break;
             }
 
-            oscillator.connect(gainNode);
-            gainNode.connect(masterGainNode);
-            if (isReverbOn) {
-                if (!reverbNode) {
-                    reverbNode = createReverb();
+            if (currentVoice !== 'custom3') {
+                oscillator.frequency.setValueAtTime(frequency, context.currentTime);
+                oscillator.connect(gainNode);
+                gainNode.connect(masterGainNode);
+                if (isReverbOn) {
+                    if (!reverbNode) {
+                        reverbNode = createReverb();
+                    }
+                    masterGainNode.connect(reverbNode);
+                    reverbNode.connect(context.destination);
+                } else {
+                    masterGainNode.connect(context.destination);
                 }
-                masterGainNode.connect(reverbNode);
-                reverbNode.connect(context.destination);
-            } else {
-                masterGainNode.connect(context.destination);
+
+                applyADSR(gainNode, duration);
+                oscillator.start();
+                oscillator.stop(context.currentTime + duration);
+                if (!activeOscillators[note]) {
+                    activeOscillators[note] = [];
+                }
+                activeOscillators[note].push(oscillator);
             }
-
-            const attackTime = 0.1;
-            const releaseTime = 0.1;
-            gainNode.gain.setValueAtTime(0, context.currentTime);
-            gainNode.gain.linearRampToValueAtTime(1, context.currentTime + attackTime);
-            gainNode.gain.linearRampToValueAtTime(0, context.currentTime + attackTime + releaseTime);
-
-            oscillator.start();
-            oscillator.stop(context.currentTime + attackTime + releaseTime);
-
-            if (!activeOscillators[note]) {
-                activeOscillators[note] = [];
-            }
-            activeOscillators[note].push(oscillator);
         }
 
         // Function to stop playing a note
@@ -341,8 +499,8 @@
                         arpeggiatorNotes.push({ note, adjustedFrequency });
                     }
                 } else {
-                    playFrequency(note, adjustedFrequency);
                     keys[note].classList.add('pressed');
+                    playFrequency(note, adjustedFrequency, 2); // Longer duration when arpeggiator is off
                 }
             }
         }
@@ -385,25 +543,69 @@
         function toggleArpeggiator() {
             isArpeggiatorOn = !isArpeggiatorOn;
             if (isArpeggiatorOn) {
+                clearInterval(arpeggiatorInterval); // Clear existing interval
                 arpeggiatorInterval = setInterval(() => {
                     if (arpeggiatorNotes.length > 0) {
                         const noteInfo = arpeggiatorNotes[arpeggiatorIndex];
                         playFrequency(noteInfo.note, noteInfo.adjustedFrequency);
+                        updateKeyColor(noteInfo.note);
                         arpeggiatorIndex = (arpeggiatorIndex + 1) % arpeggiatorNotes.length;
                     }
-                }, 200); // Adjust the interval for the arpeggiator speed
+                }, 60000 / tempo / 4); // Adjust the interval for the arpeggiator speed
             } else {
                 clearInterval(arpeggiatorInterval);
                 arpeggiatorNotes = [];
                 arpeggiatorIndex = 0;
+                resetKeyColors();
             }
             document.getElementById('toggle-arpeggiator').classList.toggle('active', isArpeggiatorOn);
+        }
+
+        // Update key color
+        function updateKeyColor(note) {
+            keys[note].classList.add('pressed');
+            setTimeout(() => {
+                keys[note].classList.remove('pressed');
+            }, 100); // Match this duration with the note duration
+        }
+
+        // Reset all key colors
+        function resetKeyColors() {
+            Object.keys(keys).forEach(note => {
+                keys[note].classList.remove('pressed');
+            });
         }
 
         // Event handler for changing the volume
         function handleVolumeChange(event) {
             const volume = event.target.value;
             masterGainNode.gain.setValueAtTime(volume / 100, context.currentTime);
+            document.getElementById('volume-value').innerText = `${volume}%`;
+        }
+
+        // Event handler for changing the tempo
+        function handleTempoChange(event) {
+            tempo = event.target.value;
+            document.getElementById('tempo-value').innerText = `${tempo} BPM`;
+            if (isArpeggiatorOn) {
+                clearInterval(arpeggiatorInterval); // Clear existing interval
+                arpeggiatorInterval = setInterval(() => {
+                    if (arpeggiatorNotes.length > 0) {
+                        const noteInfo = arpeggiatorNotes[arpeggiatorIndex];
+                        playFrequency(noteInfo.note, noteInfo.adjustedFrequency);
+                        updateKeyColor(noteInfo.note);
+                        arpeggiatorIndex = (arpeggiatorIndex + 1) % arpeggiatorNotes.length;
+                    }
+                }, 60000 / tempo / 4); // Adjust the interval for the arpeggiator speed
+            }
+        }
+
+        function showAbout() {
+            document.getElementById('aboutPopout').style.display = 'block';
+        }
+
+        function hideAbout() {
+            document.getElementById('aboutPopout').style.display = 'none';
         }
 
         document.addEventListener('keydown', handleKeyDown);
@@ -415,6 +617,7 @@
         document.getElementById('toggle-reverb').addEventListener('click', toggleReverb);
         document.getElementById('toggle-arpeggiator').addEventListener('click', toggleArpeggiator);
         document.getElementById('volume-slider').addEventListener('input', handleVolumeChange);
+        document.getElementById('tempo-slider').addEventListener('input', handleTempoChange);
 
         generateKeyboard();
     </script>
